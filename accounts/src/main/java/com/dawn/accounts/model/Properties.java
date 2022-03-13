@@ -1,4 +1,4 @@
-package com.dawn.cards.model;
+package com.dawn.accounts.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,9 @@ public class Properties {
   private Map<String, String> mailDetails;
   private List<String> activeBranches;
 
-  public Properties(String msg, String buildVersion, Map<String, String> mailDetails, List<String> activeBranches) {
+  public Properties(String msg, String buildVersion,
+                    Map<String, String> mailDetails,
+                    List<String> activeBranches) {
     this.msg = msg;
     this.buildVersion = buildVersion;
     this.mailDetails = mailDetails;
