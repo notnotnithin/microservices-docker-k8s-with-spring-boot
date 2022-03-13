@@ -1,0 +1,28 @@
+version: "2.3"
+services:
+  accounts:
+    image: nithin2889/accounts:latest
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - nithin2889-network
+
+  loans:
+    image: nithin2889/loans:latest
+    mem_limit: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - nithin2889-network
+
+  cards:
+    image: nithin2889/cards:latest
+    mem_limit: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - nithin2889-network
+
+networks:
+  nithin2889-network:
