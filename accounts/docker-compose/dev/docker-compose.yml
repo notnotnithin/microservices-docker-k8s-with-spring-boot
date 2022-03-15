@@ -1,0 +1,69 @@
+version: "3.8"
+services:
+  configserver:
+    image: nithin2889/configserver:latest
+    mem_reservation: 700m
+    ports:
+      - "8071:8071"
+    networks:
+      - nithin-bank-network
+
+  accounts:
+    image: nithin2889/accounts:latest
+    mem_reservation: 700m
+    ports:
+      - "8081:8081"
+    networks:
+      - nithin-bank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+
+  loans:
+    image: nithin2889/loans:latest
+    mem_reservation: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - nithin-bank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+
+  cards:
+    image: nithin2889/cards:latest
+    mem_reservation: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - nithin-bank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+
+networks:
+  nithin-bank-network:
