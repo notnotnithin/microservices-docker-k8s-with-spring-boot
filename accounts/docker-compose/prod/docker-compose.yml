@@ -1,8 +1,8 @@
-version: "3.8"
+version: "3"
 services:
   configserver:
     image: nithin2889/configserver:latest
-    mem_reservation: 700m
+    #mem_reservation: 700m
     ports:
       - "8071:8071"
     networks:
@@ -10,7 +10,7 @@ services:
 
   accounts:
     image: nithin2889/accounts:latest
-    mem_reservation: 700m
+    #mem_reservation: 700m
     ports:
       - "8081:8081"
     networks:
@@ -29,7 +29,7 @@ services:
 
   loans:
     image: nithin2889/loans:latest
-    mem_reservation: 700m
+    #mem_reservation: 700m
     ports:
       - "8090:8090"
     networks:
@@ -48,7 +48,7 @@ services:
 
   cards:
     image: nithin2889/cards:latest
-    mem_reservation: 700m
+    #mem_reservation: 700m
     ports:
       - "9000:9000"
     networks:
