@@ -4,7 +4,7 @@ services:
     image: nithin2889/accounts:latest
     mem_limit: 700m
     ports:
-      - "8080:8080"
+      - "8081:8081"
     networks:
       - nithin2889-network
 

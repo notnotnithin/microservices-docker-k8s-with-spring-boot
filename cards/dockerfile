@@ -1,0 +1,12 @@
+# Docker file definition from which we can create an image
+# start with a base image containing Java runtime
+FROM openjdk:11-slim as build
+
+# information around who maintains the image
+MAINTAINER nithin2889
+
+# Add the application's jar to the container
+COPY target/cards-1.0-SNAPSHOT.jar cards-1.0-SNAPSHOT.jar
+
+# execute the application
+ENTRYPOINT ["java", "-jar", "/cards-1.0-SNAPSHOT.jar"]
