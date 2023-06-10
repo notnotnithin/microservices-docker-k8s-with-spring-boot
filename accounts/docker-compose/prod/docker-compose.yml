@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 services:
   configserver:
     image: nithin2889/configserver:latest
@@ -7,6 +7,24 @@ services:
       - "8071:8071"
     networks:
       - nithin-bank-network
+
+  eurekaserver:
+    image: nithin2889/eurekaserver:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - nithin-bank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 45s
+        max_attempts: 3
+        window: 360s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8761/
 
   accounts:
     image: nithin2889/accounts:latest

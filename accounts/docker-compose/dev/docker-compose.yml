@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 services:
   configserver:
     image: nithin2889/configserver:latest
@@ -7,6 +7,25 @@ services:
       - "8071:8071"
     networks:
       - nithin-bank-network
+
+  eurekaserver:
+    image: nithin2889/eurekaserver:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - nithin-bank-network
+    depends_on:
+      - configserver
+      - eurekaserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 45s
+        max_attempts: 3
+        window: 360s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8761/
 
   accounts:
     image: nithin2889/accounts:latest
@@ -17,6 +36,7 @@ services:
       - nithin-bank-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -26,6 +46,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
 
   loans:
     image: nithin2889/loans:latest
@@ -36,6 +57,7 @@ services:
       - nithin-bank-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -45,6 +67,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
 
   cards:
     image: nithin2889/cards:latest
@@ -55,6 +78,7 @@ services:
       - nithin-bank-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -64,6 +88,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
 
 networks:
   nithin-bank-network:
